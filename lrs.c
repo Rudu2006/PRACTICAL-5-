@@ -29,18 +29,8 @@ void LRS(char S[])
         }
     }
 
-    printf("Cost Matrix for \"%s\":\n", S);
-    for(int i = 0; i <= n; i++)
-    {
-        for(int j = 0; j <= n; j++)
-        {
-            printf("%2d ", C[i][j]);
-        }
-        printf("\n");
-    }
-
     int lrslen = C[n][n];
-    printf("\nLRS length: %d\n", lrslen);
+    printf("LRS length: %d\n", lrslen);
 
     char lrs[n+1];
     int index = lrslen;
