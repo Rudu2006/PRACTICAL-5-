@@ -1,90 +1,71 @@
-#include<iostream>
-#include<string>
-#include<iomanip>
-using namespace std;
+#include <stdio.h>
+#include <string.h>
 
-void LCS(string A, string B)
+void LCS(char A[], char B[])
 {
-    int m = A.length();
-    int n = B.length();
-    
-    int C[m+1][n+1];    
-    
+    int m = strlen(A);
+    int n = strlen(B);
+    int C[m+1][n+1];
+
     for(int i = 0; i <= m; i++)
     {
-        for(int j = 0; j<=n; j++)
+        for(int j = 0; j <= n; j++)
         {
             C[i][j] = 0;
         }
     }
-    
-     for(int i = 1; i <= m; i++)
+
+    for(int i = 1; i <= m; i++)
     {
-        for(int j = 1; j<=n; j++)
+        for(int j = 1; j <= n; j++)
         {
             if(A[i-1] == B[j-1])
             {
                 C[i][j] = C[i-1][j-1] + 1;
             }
-            else{
-                C[i][j] = max(C[i-1][j], C[i][j-1] );
-            }
-        }
-    }
-    
-    cout<<"Cost Matrix : "<<endl;
-    
-    for(int i = 0; i <= m; i++)
-    {
-        for(int j = 0; j<=n; j++)
-        {
-            cout<<setw(2)<<C[i][j]<<" ";
-            
-        }
-        cout<<endl;
-    }
-    
-    cout<<endl;
-    
-    int lcslen = C[m][n];
-    cout<<"LCS length : "<<lcslen<<endl;
-    
-    string lcs = "";
-    int i = m, j = n;
-    
-    while(i>0 && j>0)
-    {
-        if(A[i-1]== B[j-1])
-        {
-            lcs = A[i-1] + lcs;
-            i--;
-            j--;
-        }
-        else{
-            if(C[i-1][j] > C[i][j-1])
-            {
-                i--;
-            }
             else
             {
-                j--;
+                C[i][j] = (C[i-1][j] > C[i][j-1]) ? C[i-1][j] : C[i][j-1];
             }
         }
     }
-    
-    cout<<"Longest Common Sequence : "<<lcs<<endl;
-    
+
+    int lcslen = C[m][n];
+    printf("LCS length: %d\n", lcslen);
+
+    char lcs[lcslen + 1];
+    int index = lcslen;
+    lcs[index] = '\0';
+
+    int i = m, j = n;
+    while(i > 0 && j > 0)
+    {
+        if(A[i-1] == B[j-1])
+        {
+            lcs[index-1] = A[i-1];
+            i--;
+            j--;
+            index--;
+        }
+        else if(C[i-1][j] > C[i][j-1])
+        {
+            i--;
+        }
+        else
+        {
+            j--;
+        }
+    }
+
+    printf("Longest Common Sequence: %s\n", lcs);
 }
 
 int main()
 {
-    
-    string X = "AGCCCTAAGGGCTACCTAGCTT";
-    string Y = "GACAGCCTACAAGCGTTAGCTTG";
-
+    char X[] = "AGCCCTAAGGGCTACCTAGCTT";
+    char Y[] = "GACAGCCTACAAGCGTTAGCTTG";
 
     LCS(X, Y);
-    
+
     return 0;
 }
-
